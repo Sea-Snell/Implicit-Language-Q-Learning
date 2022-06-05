@@ -1,0 +1,84 @@
+defaults:
+  - model: bc_lm
+  # - dataset@train_dataset: optimal_wordle_iterable
+  # - dataset@eval_dataset: optimal_wordle_iterable
+  - dataset@train_dataset: human_dataset
+  - dataset@eval_dataset: human_dataset
+  - evaluator: bc_evaluator
+  - _self_
+
+# train_dataset:
+#   cache_id: d
+#   policy:
+#     cache_path: data/wordle/optimal_policy_cache_wordle_official.pkl
+#     start_word_policy:
+#       start_words: null
+#   vocab:
+#     cache_id: v
+#     cache_path: data/wordle/vocab_cache_wordle_official.pkl
+
+train_dataset:
+  cache_id: d
+  file_path: data/wordle/human_tweet_data_true_word.json
+  use_true_word: true
+
+# eval_dataset:
+#   cache_id: d
+#   policy:
+#     cache_path: data/wordle/optimal_policy_cache_wordle_official.pkl
+#     start_word_policy:
+#       start_words: null
+#   vocab:
+#     cache_id: v
+#     cache_path: data/wordle/vocab_cache_wordle_official.pkl
+
+eval_dataset:
+  cache_id: d
+  file_path: data/wordle/human_tweet_data_true_word.json
+  use_true_word: true
+
+model:
+  dataset:
+    name: wordle_human_dataset
+    cache_id: d
+  load:
+    checkpoint_path: null
+    strict_load: true
+
+evaluator:
+  env:
+    vocab:
+      name: vocab
+      vocab_path: data/wordle/word_lists/tweet_words.txt
+      cache_path: null
+      fill_cache: true
+  verbose: true
+  kind: sample
+  generation_kwargs:
+    temp: 1.0
+    num_generations: 1
+    max_generation_len: null 
+    top_k: null
+    top_p: null
+
+train:
+  save_checkpoint_dir: outputs/wordle_tweet_bc_test1/
+  optim_state_path: null
+  epochs: 1
+  dataloader_workers: 1
+  bsize: 64
+  grad_accum_steps: 1
+  log_every: 256
+  eval_every: 1024
+  save_every: 16384
+  max_checkpoints: 10
+  eval_bsize: 32
+  eval_batches: 1
+  lr: 1e-4
+  weight_decay: 0.01
+  max_steps: null
+  loss: {}
+
+wandb:
+  use_wandb: true
+  wandb_project: wordle_iql

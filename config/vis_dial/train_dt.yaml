@@ -1,0 +1,110 @@
+defaults:
+  - model: dt_model
+  - dataset@train_dataset: list_train
+  - dataset@eval_dataset: list_val
+  - evaluator: dt_evaluator
+  # - score_evaluators@evaluator: bc_iql_eval
+  # - score_evaluators@evaluator: iql_eval
+  - _self_
+
+train_dataset:
+  cache_id: d_train
+  data:
+    reward_cache: data/vis_dialogue/processed/visdial_0.5/train_rank_reward_cache1.json
+    # reward_cache: data/vis_dialogue/processed/visdial_0.5/train_reward_cache2.json
+    # additional_scenes: data/vis_dialogue/processed/visdial_0.5/is_it_sunny_events.pkl
+    # reward_shift: 30.0
+    # reward_scale: 1e6
+    mode: env_stops
+    # mode: 10_stop
+    cutoff_rule:
+      name: percentile_cutoff_rule
+      goal_value: 1.0
+      percentile: 0.5
+    yn_reward: -2.0
+    yn_reward_kind: hard
+  # token_reward:
+  #   name: specified_token_reward
+  #   token_file: data/wikitext/wikitext-103-train_gpt2_token_freq.json
+  #   scale: 20.0
+  #   shift: -1.0
+  # top_p: 0.1
+
+eval_dataset:
+  cache_id: d_eval
+  data:
+    reward_cache: data/vis_dialogue/processed/visdial_0.5/val_rank_reward_cache1.json
+    # reward_cache: data/vis_dialogue/processed/visdial_0.5/train_reward_cache2.json
+    # reward_shift: 30.0
+    # reward_scale: 1e6
+    mode: env_stops
+    # mode: 10_stop
+    cutoff_rule:
+      name: percentile_cutoff_rule
+      goal_value: 1.0
+      percentile: 0.5
+    yn_reward: -2.0
+    yn_reward_kind: hard
+  # token_reward:
+  #   name: specified_token_reward
+  #   token_file: data/wikitext/wikitext-103-train_gpt2_token_freq.json
+  #   scale: 20.0
+  #   shift: -1.0
+  # top_p: 0.1
+
+model:
+  transition_weight: 0.0
+  gpt2:
+    lm_head: true
+    from_pretrained: true
+  dataset:
+    name: vis_dial_list_dataset
+    cache_id: d_train
+  load:
+    checkpoint_path: null
+    strict_load: true
+
+evaluator:
+  env:
+    url: http://localhost:5001/step_rank
+    actor_stop: false
+    dataset:
+      name: vis_dial_list_dataset
+      cache_id: d_eval
+    # reward_shift: 30.0
+    # reward_scale: 1e6
+    yn_reward: -2.0
+    yn_reward_kind: hard
+  verbose: true
+  kind: sample
+  generation_kwargs:
+    max_generation_len: 40
+    # beam_width: 1
+    cond_r: -5.7
+    temp: 1.0
+    top_k: null
+    top_p: null
+    num_generations: 1
+
+train:
+  save_checkpoint_dir: outputs/visual_dialogue/visdial_hard_dt_test1/
+  optim_state_path: null
+  epochs: 10000000
+  dataloader_workers: 1
+  bsize: 1
+  grad_accum_steps: 64
+  log_every: 256
+  eval_every: 4096
+  save_every: 32768
+  max_checkpoints: 1
+  eval_bsize: 1
+  eval_batches: 32
+  lr: 1e-4
+  weight_decay: 0.00
+  hard_update_every: null
+  max_steps: null
+  loss: {}
+
+wandb:
+  use_wandb: true
+  wandb_project: visdial_iql

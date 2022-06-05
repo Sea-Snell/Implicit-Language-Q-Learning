@@ -1,0 +1,13 @@
+defaults:
+ - /gpt2: gpt2_pretrained
+
+name: chai_model
+dataset: null
+alpha: 0.005
+gamma: 1.0
+use_cache: false
+cache_path: null
+load:
+  name: chai_model
+  checkpoint_path: null
+  strict_load: true

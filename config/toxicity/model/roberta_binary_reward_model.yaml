@@ -1,0 +1,9 @@
+name: roberta_binary_reward_model
+dataset: null
+roberta_kind: roberta-base
+freeze_roberta: true
+reward_cuttoff: 0.0
+load:
+  name: roberta_binary_reward_model
+  checkpoint_path: null
+  strict_load: true

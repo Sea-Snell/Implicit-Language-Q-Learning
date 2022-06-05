@@ -1,0 +1,7 @@
+defaults:
+  - /env: venv
+
+name: chai_evaluator
+verbose: true
+cache_save_path: null
+generation_kwargs: {}

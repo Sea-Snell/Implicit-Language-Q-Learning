@@ -1,0 +1,4 @@
+name: toxicity_env
+reward_shift: 0.0
+reward_scale: 1.0
+reward_f: null

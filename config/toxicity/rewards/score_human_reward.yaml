@@ -1,0 +1,3 @@
+name: score_human_reward
+reddit_path: data/reddit_comments/
+index_path: null

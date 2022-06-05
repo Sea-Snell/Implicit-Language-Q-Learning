@@ -1,0 +1,4 @@
+name: specified_token_reward
+token_file: data/wikitext/wikitext-103-train_gpt2_token_freq.json
+scale: 1.0
+shift: 0.0

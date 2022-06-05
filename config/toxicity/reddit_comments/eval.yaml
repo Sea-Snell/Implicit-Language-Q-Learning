@@ -1,0 +1,7 @@
+name: reddit_comments
+path: data/reddit_comments/
+cache_path: null
+reward_shift: 0.0
+reward_scale: 1.0
+reward_f: null
+index_path: data/reddit_comments/eval_idxs.json

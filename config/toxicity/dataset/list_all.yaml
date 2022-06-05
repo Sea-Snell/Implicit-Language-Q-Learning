@@ -1,0 +1,7 @@
+defaults:
+ - /reddit_comments@data: all
+ - /token_reward: constant
+name: toxicity_list_dataset
+max_len: null
+cuttoff: null
+resample_timeout: 0.0

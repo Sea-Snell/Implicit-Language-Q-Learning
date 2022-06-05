@@ -1,0 +1,211 @@
+defaults:
+  - model: per_token_iql
+  # - dataset@train_dataset: wordle_list
+  # - dataset@eval_dataset: wordle_list
+  # - dataset@train_dataset: noisy_wordle_iterable
+  # - dataset@eval_dataset: noisy_wordle_iterable
+  - dataset@train_dataset: human_dataset
+  - dataset@eval_dataset: human_dataset
+  # - score_evaluators@evaluator: iql_eval
+  - evaluator: iql_evaluator
+  # - evaluator: action_ranking_evaluator
+  # - evaluator: action_ranking_evaluator_adversarial
+  - _self_
+
+train_dataset:
+  cache_id: d_train
+  # file_path: data/wordle/human_tweet_data_true_word.json
+  file_path: data/wordle/random_human_tweet_data_200.json
+  use_true_word: false
+  index_file: data/wordle/human_train_idxs.json
+  # top_p: 0.5
+  # token_reward:
+  #   name: specified_token_reward
+  #   token_file: data/wordle/vowel_penalty.json
+  #   scale: 0.1
+  #   shift: 0.0
+
+# train_dataset:
+#   cache_id: d
+#   policy:
+#     policy1:
+#       cache_path: data/wordle/optimal_policy_cache_wordle_official.pkl
+#   vocab:
+#     cache_id: v
+#     cache_path: data/wordle/vocab_cache_wordle_official.pkl
+
+# train_dataset:
+#   cache_id: d
+#   # file_path: data/wordle/expert_wordle_branch_20k_10sub.pkl
+#   file_path: data/wordle/expert_wordle_adversarial_20k.pkl
+#   vocab:
+#     cache_id: v
+#     # cache_path: data/wordle/vocab_cache_wordle_official_branch_20k_10sub.pkl
+#     cache_path: data/wordle/vocab_cache_wordle_official_adversarial_20k.pkl
+
+eval_dataset:
+  cache_id: d_eval
+  # file_path: data/wordle/human_tweet_data_true_word.json
+  file_path: data/wordle/random_human_tweet_data_200.json
+  use_true_word: false
+  index_file: data/wordle/human_eval_idxs.json
+  # top_p: 0.5
+  # top_p: 0.1
+  # token_reward:
+  #   name: specified_token_reward
+  #   token_file: data/wordle/vowel_penalty.json
+  #   scale: 0.1
+  #   shift: 0.0
+
+# eval_dataset:
+#   cache_id: d
+#   policy:
+#     policy1:
+#       cache_path: data/wordle/optimal_policy_cache_wordle_official.pkl
+#   vocab:
+#     cache_id: v
+#     cache_path: data/wordle/vocab_cache_wordle_official.pkl
+
+# eval_dataset:
+#   cache_id: d
+#   # file_path: data/wordle/expert_wordle_branch_20k_10sub.pkl
+#   file_path: data/wordle/expert_wordle_adversarial_20k.pkl
+#   vocab:
+#     cache_id: v
+#     # cache_path: data/wordle/vocab_cache_wordle_official_branch_20k_10sub.pkl
+#     cache_path: data/wordle/vocab_cache_wordle_official_adversarial_20k.pkl
+
+model:
+  alpha: 0.005
+  gamma: 0.99
+  beta: 0.0
+  transition_weight: 0.0
+  clip_weight: null
+  value_max: null
+  value_min: null
+  detach_v: false
+  detach_q: false
+  detach_pi: false
+  double_q: true
+  seperate_policy: true
+  seperate_target: true
+  tau: 0.5
+  exp_weights: true
+  dm_margin: 0.0
+  advanced_mlp: false
+  cql_temp: 1.0
+  dataset:
+    name: wordle_human_dataset
+    cache_id: d_train
+  load:
+    checkpoint_path: outputs/wordle/wordle_bc_test1/model_converted.pkl
+    # checkpoint_path: outputs/wordle/wordle_iql_official_test1/model.pkl
+    strict_load: false
+
+evaluator:
+  env:
+    vocab:
+      name: vocab
+      # vocab_path: data/wordle/word_lists/tweet_words.txt
+      vocab_path: data/wordle/word_lists/wordle_official_200.txt
+      cache_path: null
+      fill_cache: true
+  verbose: true
+  kind: beam
+  generation_kwargs:
+    max_generation_len: 6
+    beam_width: 1
+    temp: 1.0
+    top_k: null
+    top_p: null
+    exp_adv: true
+    adv_weight: 16.0
+    adv_clip: 0.0
+    include_logits: true
+    include_adv: true
+    # num_generations: 1
+    # rerank_log_prob_weight: 0.0
+    # rerank_advantage_weight: 1.0
+
+# evaluator:
+#   env:
+#     vocab:
+#       name: vocab
+#       # vocab_path: data/wordle/word_lists/tweet_words.txt
+#       vocab_path: data/wordle/word_lists/wordle_official_200.txt
+#       cache_path: null
+#       fill_cache: true
+#   kwargs_main:
+#     beta: 1.0
+#     exp_weights: true
+#     clip_weight: null
+#     logit_temp: 1.0
+#     logit_top_k: null
+#     logit_top_p: null
+#     include_logits: true
+#     include_advantage: true
+#   verbose: true
+#   num_generations: 1
+#   max_generation_len: 6
+
+# evaluator:
+#   env:
+#     vocab:
+#       name: vocab
+#       vocab_path: data/wordle/word_lists/tweet_words.txt
+#       # vocab_path: data/wordle/word_lists/wordle_official_200.txt
+#       cache_path: null
+#       fill_cache: true
+#   verbose: true
+#   kind: sample
+#   generation_kwargs:
+#     max_generation_len: 6
+#     # beam_width: 1
+
+# evaluator:
+#   env:
+#     vocab:
+#       name: vocab
+#       cache_id: v
+#   verbose: true
+#   kind: greedy
+#   generation_kwargs:
+#     max_generation_len: 6
+#     support_constraint: 1.1
+#     beam_width: 1
+
+# evaluator:
+#   # branching_data:
+#   adversarial_data:
+#     name: wordle_dataset
+#     cache_id: d
+
+train:
+  save_checkpoint_dir: outputs/wordle/wordle_iql_official_test1/
+  # optim_state_path: outputs/wordle/wordle_iql_official_test1/optim.pkl
+  optim_state_path: null
+  epochs: 1
+  dataloader_workers: 1
+  bsize: 64
+  grad_accum_steps: 16
+  log_every: 256
+  eval_every: 1024
+  save_every: 16384
+  max_checkpoints: 1
+  eval_bsize: 16
+  eval_batches: 1
+  lr: 1e-5
+  weight_decay: 0.00
+  hard_update_every: null
+  max_steps: null
+  loss:
+    v_loss_weight: 1.0
+    q_loss_weight: 1.0
+    awac_weight: 0.0
+    cql_loss_weight: 1e-4
+    dm_loss_weight: 0.0
+    mc_returns: false
+
+wandb:
+  use_wandb: true
+  wandb_project: wordle_iql

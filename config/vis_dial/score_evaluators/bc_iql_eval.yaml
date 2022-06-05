@@ -1,0 +1,9 @@
+defaults:
+  - /model@model_0: v_token_iql
+  - /env: venv
+name: score_evaluator
+verbose: true
+num_generations: 1
+max_generation_len: null
+kwargs_0: {}
+kwargs_main: {}

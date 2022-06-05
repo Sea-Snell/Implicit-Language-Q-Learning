@@ -1,0 +1,7 @@
+defaults:
+ - /vis_dial@data: val
+ - /token_reward: constant
+name: vis_dial_list_dataset
+max_len: null
+top_p: null
+bottom_p: null

@@ -1,0 +1,129 @@
+defaults:
+  - model: per_utterance_iql
+  - dataset@train_dataset: list_train
+  - dataset@eval_dataset: list_val
+  - evaluator: utterance_iql_evaluator
+  # - evaluator: iql_evaluator
+  - _self_
+
+train_dataset:
+  cache_id: d_train
+  data:
+    reward_cache: data/vis_dialogue/processed/visdial_0.5/train_rank_reward_cache1.json
+    # reward_cache: data/vis_dialogue/processed/visdial_0.5/train_reward_cache2.json
+    # additional_scenes: data/vis_dialogue/processed/visdial_0.5/is_it_sunny_events.pkl
+    # reward_shift: 30.0
+    # reward_scale: 1e6
+    mode: env_stops
+    # mode: 10_stop
+    cutoff_rule:
+      name: percentile_cutoff_rule
+      goal_value: 1.0
+      percentile: 0.5
+    yn_reward: -2.0
+    yn_reward_kind: hard
+  # token_reward:
+  #   name: specified_token_reward
+  #   token_file: data/wikitext/wikitext-103-train_gpt2_token_freq.json
+  #   scale: 20.0
+  #   shift: -1.0
+  # top_p: 0.1
+
+eval_dataset:
+  cache_id: d_eval
+  data:
+    reward_cache: data/vis_dialogue/processed/visdial_0.5/val_rank_reward_cache1.json
+    # reward_cache: data/vis_dialogue/processed/visdial_0.5/train_reward_cache2.json
+    # reward_shift: 30.0
+    # reward_scale: 1e6
+    mode: env_stops
+    # mode: 10_stop
+    cutoff_rule:
+      name: percentile_cutoff_rule
+      goal_value: 1.0
+      percentile: 0.5
+    yn_reward: -2.0
+    yn_reward_kind: hard
+  # token_reward:
+  #   name: specified_token_reward
+  #   token_file: data/wikitext/wikitext-103-train_gpt2_token_freq.json
+  #   scale: 20.0
+  #   shift: -1.0
+  # top_p: 0.1
+
+model:
+  alpha: 0.005
+  gamma: 0.99
+  beta: 0.0
+  transition_weight: 0.0
+  clip_weight: null
+  value_max: null
+  value_min: null
+  detach_v: false
+  detach_q: false
+  detach_pi: false
+  double_q: true
+  seperate_policy: true
+  seperate_target: true
+  tau: 0.9
+  exp_weights: true
+  advanced_mlp: false
+  gpt2:
+    lm_head: true
+    from_pretrained: true
+  dataset:
+    name: vis_dial_list_dataset
+    cache_id: d_train
+  load:
+    # checkpoint_path: outputs/visual_dialogue/visdial_iql_test2/model.pkl
+    # checkpoint_path: null
+    checkpoint_path: outputs/visual_dialogue/visdial_bc_official_test1/model_utterance_converted.pkl
+    strict_load: false
+
+evaluator:
+  env:
+    url: http://localhost:5001/step_rank
+    actor_stop: false
+    dataset:
+      name: vis_dial_list_dataset
+      cache_id: d_eval
+    # reward_shift: 30.0
+    # reward_scale: 1e6
+    yn_reward: -2.0
+    yn_reward_kind: hard
+  verbose: true
+  kind: rerank
+  generation_kwargs:
+    num_generations: 4
+    max_generation_len: 40
+    temp: 1.0
+    top_k: null
+    top_p: null
+    log_prob_weight: 0.0
+
+train:
+  save_checkpoint_dir: outputs/visual_dialogue/visdial_hard_yn_official_utterance_iql_test4/
+  optim_state_path: null
+  epochs: 10000000
+  dataloader_workers: 1
+  bsize: 1
+  grad_accum_steps: 64
+  log_every: 256
+  eval_every: 4096
+  save_every: 32768
+  max_checkpoints: 1
+  eval_bsize: 1
+  eval_batches: 32
+  lr: 1e-4
+  weight_decay: 0.00
+  hard_update_every: null
+  max_steps: null
+  loss:
+    v_loss_weight: 1.0
+    q_loss_weight: 1.0
+    awac_weight: 0.0
+    mc_returns: false
+
+wandb:
+  use_wandb: true
+  wandb_project: visdial_iql

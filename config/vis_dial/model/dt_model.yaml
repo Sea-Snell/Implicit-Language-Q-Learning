@@ -1,0 +1,9 @@
+defaults:
+ - /gpt2: gpt2_pretrained
+
+name: dt_model
+dataset: null
+load:
+  name: dt_model
+  checkpoint_path: null
+  strict_load: true

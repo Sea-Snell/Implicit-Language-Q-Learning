@@ -1,0 +1,3 @@
+name: percentile_cutoff_rule
+goal_value: 1.0
+percentile: 0.5

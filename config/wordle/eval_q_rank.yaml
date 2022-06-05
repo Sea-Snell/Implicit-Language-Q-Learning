@@ -1,0 +1,41 @@
+defaults:
+  - model: per_token_iql
+  - dataset: wordle_list
+  - evaluator: action_ranking_evaluator
+  - _self_
+
+dataset:
+  cache_id: d
+  file_path: data/wordle/expert_wordle_branch_20k.pkl
+  vocab:
+    cache_id: v
+    cache_path: data/wordle/vocab_cache_wordle_official_branch.pkl
+
+model:
+  alpha: 0.005
+  gamma: 1.0
+  value_max: 0.0
+  value_min: null
+  dataset:
+    name: wordle_dataset
+    cache_id: d
+  load:
+    checkpoint_path: outputs/wordle_iql_test4/model.pkl
+    strict_load: true
+
+evaluator:
+  branching_data:
+    name: wordle_dataset
+    cache_id: d
+
+eval:
+  dataloader_workers: 1
+  bsize: 64
+  batches: 128
+  print_every: 8
+  loss:
+    tau: 0.7
+    v_loss_weight: 1.0
+    q_loss_weight: 1.0
+    behavior_weight: 1.0
+

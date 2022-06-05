@@ -1,0 +1,27 @@
+defaults:
+ - /gpt2: gpt2_pretrained
+
+name: per_token_iql
+dataset: null
+alpha: 0.005
+gamma: 1.0
+beta: 1.0
+transition_weight: 0.0
+clip_weight: null
+value_max: null
+value_min: null
+detach_v: false
+detach_q: false
+detach_pi: false
+double_q: false
+seperate_policy: false
+seperate_target: false
+tau: 0.5
+exp_weights: false
+dm_margin: 0.0
+advanced_mlp: false
+cql_temp: 1.0
+load:
+  name: per_token_iql
+  checkpoint_path: null
+  strict_load: true

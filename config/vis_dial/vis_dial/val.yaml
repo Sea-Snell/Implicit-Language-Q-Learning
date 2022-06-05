@@ -1,0 +1,15 @@
+# defaults:
+#   - /cutoff_rule: percentile_cutoff_rule
+name: vis_dial
+data_path: data/vis_dialogue/raw/visdial_0.5/visdial_0.5_val.json
+img_feat_path: data/vis_dialogue/processed/visdial_0.5/data_img.h5
+split: val
+reward_cache: data/vis_dialogue/processed/visdial_0.5/val_reward_cache2.json
+norm_img_feats: true
+reward_shift: 0.0
+reward_scale: 1.0
+additional_scenes: null
+mode: 10_stop
+cutoff_rule: null
+yn_reward: 0.0
+yn_reward_kind: none

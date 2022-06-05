@@ -1,0 +1,6 @@
+defaults:
+ - dataset@data: list_train
+ - _self_
+
+reward_url: http://172.31.10.99:5001/fetch_reward_rank
+output_file: data/vis_dialogue/processed/visdial_0.5/train_rank_reward_cache1.json

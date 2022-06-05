@@ -1,0 +1,12 @@
+*.pyc
+__pycache__/
+outputs/
+.env
+data/
+!src/data/
+!scripts/data/
+*.rdb
+*.zip
+.DS_Store
+*.swp
+.env

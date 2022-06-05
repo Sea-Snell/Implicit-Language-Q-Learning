@@ -1,0 +1,5 @@
+defaults:
+  /model@chai_model: chai_model
+
+name: chai_policy
+generation_kwargs: {}

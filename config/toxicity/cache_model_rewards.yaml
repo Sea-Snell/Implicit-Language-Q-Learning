@@ -1,0 +1,30 @@
+defaults:
+  - model: roberta_binary_reward_model
+  - dataset: list_all
+  - _self_
+
+dataset:
+  cache_id: d
+  data:
+    cache_path: null
+    reward_shift: 0.0
+    reward_scale: 1.0
+    reward_f: null
+  max_len: 256
+  cuttoff: 0.0
+  resample_timeout: 0.00
+
+model:
+  dataset:
+    name: toxicity_list_dataset
+    cache_id: d
+  roberta_kind: roberta-base
+  freeze_roberta: false
+  reward_cuttoff: 0.0
+  load:
+    name: roberta_binary_reward_model
+    checkpoint_path: outputs/toxicity/toxicity_upvote_roberta_binary_reward_f1/model.pkl
+    strict_load: true
+
+dataloader_workers: 0
+bsize: 1024

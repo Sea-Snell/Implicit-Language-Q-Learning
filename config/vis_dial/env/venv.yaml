@@ -1,0 +1,8 @@
+name: vis_dial_env
+dataset: null
+url: null
+reward_shift: 0.0
+reward_scale: 1.0
+actor_stop: false
+yn_reward: 0.0
+yn_reward_kind: none

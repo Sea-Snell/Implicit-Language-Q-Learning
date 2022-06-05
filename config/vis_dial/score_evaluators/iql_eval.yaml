@@ -1,0 +1,7 @@
+defaults:
+  - /env: venv
+name: score_evaluator
+verbose: true
+num_generations: 1
+max_generation_len: null
+kwargs_main: {}
