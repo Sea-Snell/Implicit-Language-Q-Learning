@@ -2,6 +2,8 @@
 
 Official code from the paper "Offline RL for Natural Language Generation with Implicit Language Q Learning"
 
+[project site](https://sea-snell.github.io/ILQL_site/) | [arxiv]()
+
 ## Setup
 
 ### Preprocessed Data
