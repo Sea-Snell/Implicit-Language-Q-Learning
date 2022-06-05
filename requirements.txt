@@ -1,9 +1,10 @@
 torch==1.9.0
 accelerate==0.4.0
 transformers==4.16.1
-wandb==0.12.9
+wandb==0.12.17
 termcolor==1.1.0
 tqdm==4.46.0
 hydra-core==1.1.1
 openai==0.18.1
 h5py==3.7.0
+flatten-dict==0.4.2
