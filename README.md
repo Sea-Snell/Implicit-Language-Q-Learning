@@ -12,6 +12,8 @@ Download the data zip from the Google drive folder [here](https://drive.google.c
 
 ### Dependencies and PYTHONPATH
 
+This repo was designed for python 3.9.1
+
 ``` shell
 pip install -r requirements.txt
 export PYTHONPATH="$PWD/src/"
