@@ -4,7 +4,6 @@ from visdial.visdial_env import VDEnvironment, VDRemotePolicy
 from load_objects import *
 import pickle as pkl
 from visdial.visdial_evaluator import TopAdvantageUtterances, VisDial_Chai_Evaluator, VisDial_DT_Evaluator, VisDial_IQL_Evaluator, Utterance_VisDial_IQL_Evaluator
-from visdial.visdial_tokenizer import gpt3_convert_str_vis_dial, gpt3_convert_token_vis_dial
 
 @register('percentile_cutoff_rule')
 def load_percentile_cutoff_rule(config, verbose=True):
@@ -53,14 +52,6 @@ def load_vis_env(config, device, verbose=True):
 @register('vis_dial_remote_policy')
 def load_vis_dial_remote_policy(config, device, verbose=True):
     return VDRemotePolicy(config['url'])
-
-@register('gpt3_convert_str_vis_dial')
-def load_gpt3_convert_str_vis_dial(config, device, verbose=True):
-    return gpt3_convert_str_vis_dial
-
-@register('gpt3_convert_token_vis_dial')
-def load_gpt3_convert_token_vis_dial(config, device, verbose=True):
-    return gpt3_convert_token_vis_dial
 
 @register('top_advantage_utterances_evaluator')
 def load_top_advantage_utterances_evaluator(config, device, verbose=True):

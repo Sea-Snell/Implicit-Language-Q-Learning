@@ -8,3 +8,4 @@ hydra-core==1.1.1
 openai==0.18.1
 h5py==3.7.0
 flatten-dict==0.4.2
+scikit-learn==1.0.2
