@@ -6,4 +6,4 @@ termcolor==1.1.0
 tqdm==4.46.0
 hydra-core==1.1.1
 openai==0.18.1
-h5py==2.10.0
+h5py==3.7.0
