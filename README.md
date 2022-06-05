@@ -1,4 +1,4 @@
-# ILQL
+# Implicit Language Q Learning
 
 Official code from the paper "Offline RL for Natural Language Generation with Implicit Language Q Learning"
 
