@@ -29,7 +29,7 @@ class ToxicityEnvironment(Language_Environment):
     def __init__(self, data: RedditData, 
                  reward_f: Optional[Callable[[str], float]], 
                  reward_shift: float=0.0, reward_scale: float=1.0, 
-                 include_parent: bool=False):
+                 include_parent: bool=True):
         self.data = data
         self.reward_f = reward_f
         self.reward_shift = reward_shift

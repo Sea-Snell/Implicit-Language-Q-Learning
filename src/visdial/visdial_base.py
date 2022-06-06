@@ -33,7 +33,7 @@ yn_reward_fs = {'none': None, 'soft': soft_yn_reward, 'hard': hard_yn_reward, 'c
 
 class CutoffRule(ABC):
     @abstractmethod
-    def apply_rule(self, scene: Scene, event: Event):
+    def apply_rule(self, scene: Scene, event: Event) -> bool:
         pass
 
 class PercentileCutoffRule:
@@ -186,13 +186,15 @@ class VisDialogueData:
                  norm_img_feats: bool=True, reward_shift: float=0.0, 
                  reward_scale: float=1.0, 
                  addition_scenes: Optional[List[Scene]]=None, 
-                 mode: str='10_stop', 
+                 mode: str='env_stops', 
                  cutoff_rule: Optional[CutoffRule]=None, 
-                 yn_reward: float=0.0, yn_reward_kind: str='soft'):
+                 yn_reward: float=-2.0, yn_reward_kind: str='none'):
         assert mode in ['agent_stops', 'env_stops', '10_stop']
         assert yn_reward_kind in yn_reward_fs
         if mode == 'env_stops':
-            assert cutoff_rule is not None and reward_cache is not None
+            if cutoff_rule is None:
+                cutoff_rule = PercentileCutoffRule(1.0, 0.5)
+            assert reward_cache is not None
         yn_reward_f = yn_reward_fs[yn_reward_kind]
         self.norm_img_feats = norm_img_feats
         with open(data_path, 'r') as f:

@@ -117,7 +117,8 @@ class WordleState:
         return '\n'.join(['\n'.join(str_items[k]) for k in ['known', 'wrong_pos', 'none'] if len(str_items[k]) > 0])
 
 class Vocabulary:
-    def __init__(self, all_vocab: List[str], wordle_state: Optional[WordleState], 
+    def __init__(self, all_vocab: List[str], 
+                 wordle_state: Optional[WordleState], 
                  cache: Optional[Cache]=None, 
                  fill_cache: bool=True):
         # assert all([len(w) == N_CHARS for w in filtered_vocab])

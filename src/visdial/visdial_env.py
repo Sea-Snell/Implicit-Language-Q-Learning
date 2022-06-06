@@ -39,7 +39,7 @@ class VDObservation(Language_Observation):
 
 class VDEnvironment(Language_Environment):
     def __init__(self, dataset: RL_Dataset, url: str, reward_shift: float=0.0, 
-                 reward_scale: float=1.0, actor_stop: bool=True, yn_reward: float=0.0, 
+                 reward_scale: float=1.0, actor_stop: bool=False, yn_reward: float=-2.0, 
                  yn_reward_kind: str='none'):
         self.dataset = dataset
         self.remote_env = VDEnvRemoteWrapper(url)

@@ -4,24 +4,17 @@ defaults:
   - evaluator: top_advantage_utterances_evaluator
   - _self_
 
-dataset:
+eval_dataset:
   cache_id: d
   data:
     reward_cache: data/vis_dialogue/processed/visdial_0.5/val_rank_reward_cache1.json
-    early_stops: true
-    # reward_shift: 30.0
-    # reward_scale: 1e6
     mode: env_stops
     cutoff_rule:
       name: percentile_cutoff_rule
       goal_value: 1.0
       percentile: 0.5
-    # yn_reward: -2.0
-  token_reward:
-    name: specified_token_reward
-    token_file: data/wikitext/wikitext-103-train_gpt2_token_freq.json
-    scale: 20.0
-    shift: -1.0
+    yn_reward: -2.0
+    yn_reward_kind: hard
 
 model:
   alpha: 0.005
@@ -47,7 +40,7 @@ model:
     name: vis_dial_list_dataset
     cache_id: d
   load:
-    checkpoint_path: outputs/visual_dialogue/visdial_rank_iql_frequency_cutoff_yn_penalty_simple_extraction_cql_test2/model_65535.pkl
+    checkpoint_path: outputs/visual_dialogue/visdial_iql_test1/model.pkl
     strict_load: true
 
 evaluator:

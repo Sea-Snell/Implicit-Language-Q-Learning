@@ -3,54 +3,31 @@ defaults:
   - dataset@train_dataset: list_train
   - dataset@eval_dataset: list_val
   - evaluator: iql_evaluator
-  # - score_evaluators@evaluator: bc_iql_eval
-  # - score_evaluators@evaluator: iql_eval
   - _self_
 
 train_dataset:
   cache_id: d_train
   data:
     reward_cache: data/vis_dialogue/processed/visdial_0.5/train_rank_reward_cache1.json
-    # reward_cache: data/vis_dialogue/processed/visdial_0.5/train_reward_cache2.json
-    # additional_scenes: data/vis_dialogue/processed/visdial_0.5/is_it_sunny_events.pkl
-    # reward_shift: 30.0
-    # reward_scale: 1e6
     mode: env_stops
-    # mode: 10_stop
     cutoff_rule:
       name: percentile_cutoff_rule
       goal_value: 1.0
       percentile: 0.5
     yn_reward: -2.0
     yn_reward_kind: hard
-  # token_reward:
-  #   name: specified_token_reward
-  #   token_file: data/wikitext/wikitext-103-train_gpt2_token_freq.json
-  #   scale: 20.0
-  #   shift: -1.0
-  # top_p: 0.1
 
 eval_dataset:
   cache_id: d_eval
   data:
     reward_cache: data/vis_dialogue/processed/visdial_0.5/val_rank_reward_cache1.json
-    # reward_cache: data/vis_dialogue/processed/visdial_0.5/train_reward_cache2.json
-    # reward_shift: 30.0
-    # reward_scale: 1e6
     mode: env_stops
-    # mode: 10_stop
     cutoff_rule:
       name: percentile_cutoff_rule
       goal_value: 1.0
       percentile: 0.5
     yn_reward: -2.0
     yn_reward_kind: hard
-  # token_reward:
-  #   name: specified_token_reward
-  #   token_file: data/wikitext/wikitext-103-train_gpt2_token_freq.json
-  #   scale: 20.0
-  #   shift: -1.0
-  # top_p: 0.1
 
 model:
   alpha: 0.005
@@ -78,42 +55,16 @@ model:
     name: vis_dial_list_dataset
     cache_id: d_train
   load:
-    # checkpoint_path: outputs/visual_dialogue/visdial_bc_iql_test1/model.pkl
-    # checkpoint_path: outputs/visual_dialogue/visdial_mc_iql_test1/model_360447.pkl
-    # checkpoint_path: outputs/visual_dialogue/visdial_iql_standard_new_extraction_test1/model_393215.pkl
-    checkpoint_path: outputs/visual_dialogue/visdial_bc_official_test1/model_converted.pkl
-    # checkpoint_path: outputs/visual_dialogue/visdial_hard_yn_iql_official_test2/awac_model.pkl
-    strict_load: false
-
-# evaluator:
-#   env:
-#     url: http://localhost:5001/step_rank
-#     dataset:
-#       name: vis_dial_list_dataset
-#       cache_id: d_eval
-#     # reward_shift: 30.0
-#     # reward_scale: 1e6
-#   verbose: true
-#   kind: sample
-#   generation_kwargs:
-#     max_generation_len: 40
-#     # beam_width: 1
-#     # temp: 1.0
-#     num_generations: 1
-#     # max_generation_len: null 
-#     # top_k: null
-#     # top_p: null
-
+    checkpoint_path: null
+    strict_load: true
 
 evaluator:
   env:
-    url: http://localhost:5001/step_rank
+    url: http://localhost:5000/step_rank
     actor_stop: false
     dataset:
       name: vis_dial_list_dataset
       cache_id: d_eval
-    # reward_shift: 30.0
-    # reward_scale: 1e6
     yn_reward: -2.0
     yn_reward_kind: hard
   verbose: true
@@ -153,7 +104,7 @@ train:
   loss:
     v_loss_weight: 1.0
     q_loss_weight: 1.0
-    awac_weight: 0.0
+    awac_weight: 1.0
     cql_loss_weight: 1.0
     dm_loss_weight: 0.0
     mc_returns: false

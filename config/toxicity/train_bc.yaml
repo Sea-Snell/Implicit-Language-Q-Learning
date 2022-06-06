@@ -1,8 +1,8 @@
 defaults:
-  - model: per_token_iql
+  - model: bc_lm
   - dataset@train_dataset: list_train
   - dataset@eval_dataset: list_test
-  - evaluator: iql_evaluator
+  - evaluator: bc_evaluator
   - _self_
 
 train_dataset:
@@ -38,27 +38,7 @@ eval_dataset:
   include_parent: true
 
 model:
-  alpha: 0.005
-  gamma: 0.99
-  beta: 0.0
   transition_weight: 0.0
-  clip_weight: null
-  value_max: null
-  value_min: null
-  detach_v: false
-  detach_q: false
-  detach_pi: false
-  double_q: true
-  seperate_policy: true
-  seperate_target: true
-  tau: 0.6
-  exp_weights: true
-  dm_margin: 0.0
-  advanced_mlp: false
-  cql_temp: 1.0
-  gpt2:
-    lm_head: true
-    from_pretrained: true
   dataset:
     name: toxicity_list_dataset
     cache_id: d_train
@@ -93,21 +73,10 @@ evaluator:
   kind: sample
   generation_kwargs:
     max_generation_len: 256
-    # beam_width: 16
-    temp: 1.0
-    top_k: null
-    top_p: null
-    exp_adv: true
-    adv_weight: 8.0
-    adv_clip: null
-    include_logits: true
-    include_adv: true
     num_generations: 1
-    rerank_log_prob_weight: 0.0
-    rerank_advantage_weight: 1.0
 
 train:
-  save_checkpoint_dir: outputs/toxicity/conditional_toxicity_official_iql_test1/
+  save_checkpoint_dir: outputs/toxicity/conditional_toxicity_official_bc_test1/
   optim_state_path: null
   epochs: 10000000
   dataloader_workers: 0
@@ -121,15 +90,8 @@ train:
   eval_batches: 32
   lr: 1e-4
   weight_decay: 0.00
-  hard_update_every: null
   max_steps: null
-  loss:
-    v_loss_weight: 1.0
-    q_loss_weight: 1.0
-    awac_weight: 1.0
-    cql_loss_weight: 0.25
-    dm_loss_weight: 0.0
-    mc_returns: false
+  loss: {}
 
 wandb:
   use_wandb: true

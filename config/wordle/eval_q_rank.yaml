@@ -13,14 +13,28 @@ dataset:
 
 model:
   alpha: 0.005
-  gamma: 1.0
-  value_max: 0.0
+  gamma: 0.99
+  beta: 0.0
+  transition_weight: 0.0
+  clip_weight: null
+  value_max: null
   value_min: null
+  detach_v: false
+  detach_q: false
+  detach_pi: false
+  double_q: true
+  seperate_policy: true
+  seperate_target: true
+  tau: 0.9
+  exp_weights: true
+  dm_margin: 0.0
+  advanced_mlp: false
+  cql_temp: 1.0
   dataset:
-    name: wordle_dataset
+    name: wordle_human_dataset
     cache_id: d
   load:
-    checkpoint_path: outputs/wordle_iql_test4/model.pkl
+    checkpoint_path: outputs/wordle/wordle_iql_official_test1/model.pkl
     strict_load: true
 
 evaluator:
@@ -34,8 +48,10 @@ eval:
   batches: 128
   print_every: 8
   loss:
-    tau: 0.7
     v_loss_weight: 1.0
     q_loss_weight: 1.0
-    behavior_weight: 1.0
+    awac_weight: 1.0
+    cql_loss_weight: 0.01
+    dm_loss_weight: 0.0
+    mc_returns: false
 

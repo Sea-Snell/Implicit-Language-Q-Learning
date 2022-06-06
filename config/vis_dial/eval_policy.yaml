@@ -1,8 +1,6 @@
 defaults:
   - model: per_token_iql
-  # - model: psi_model
   - dataset: list_val
-  # - score_evaluators@evaluator: bc_iql_eval
   - evaluator: vd_iql_evaluator
   - _self_
 
@@ -10,23 +8,13 @@ dataset:
   cache_id: d
   data:
     reward_cache: data/vis_dialogue/processed/visdial_0.5/val_rank_reward_cache1.json
-    # reward_cache: data/vis_dialogue/processed/visdial_0.5/train_reward_cache2.json
-    # reward_shift: 30.0
-    # reward_scale: 1e6
     mode: env_stops
-    # mode: 10_stop
     cutoff_rule:
       name: percentile_cutoff_rule
       goal_value: 1.0
       percentile: 0.5
     yn_reward: -2.0
     yn_reward_kind: hard
-  # top_p: 0.3
-  # token_reward:
-  #   name: specified_token_reward
-  #   token_file: data/wikitext/wikitext-103-train_gpt2_token_freq.json
-  #   scale: 20.0
-  #   shift: -1.0
 
 model:
   alpha: 0.005
@@ -42,7 +30,7 @@ model:
   double_q: true
   seperate_policy: true
   seperate_target: true
-  # tau: 0.5
+  tau: 0.7
   exp_weights: true
   advanced_mlp: false
   cql_temp: 1.0
@@ -54,36 +42,15 @@ model:
     cache_id: d
   load:
     checkpoint_path: null
-    # checkpoint_path: outputs/visual_dialogue/visdial_bc_official_test1/model.pkl
-    # checkpoint_path: outputs/visual_dialogue/visdial_hard_yn_pbc_official_test1/model_131071.pkl
-    # checkpoint_path: outputs/visual_dialogue/visdial_hard_yn_pbc_official_test2/model_196607.pkl
-    # checkpoint_path: outputs/visual_dialogue/visdial_hard_yn_pbc_official_test3/model_393215.pkl
-    # checkpoint_path: outputs/visual_dialogue/visdial_hard_yn_iql_official_test1/model_131071.pkl
-    # checkpoint_path: outputs/visual_dialogue/visdial_hard_yn_iql_official_test2/model_131071.pkl
-    # checkpoint_path: outputs/visual_dialogue/visdial_hard_yn_iql_official_test3/model_294911.pkl
-    # checkpoint_path: outputs/visual_dialogue/visdial_hard_yn_iql_official_test4/model_294911.pkl
-    # checkpoint_path: outputs/visual_dialogue/visdial_hard_yn_cql_official_test1/model_163839.pkl
-    # checkpoint_path: outputs/visual_dialogue/visdial_hard_yn_cql_official_test2/model_229375.pkl
-    # checkpoint_path: outputs/visual_dialogue/visdial_hard_yn_cql_official_test3/model_262143.pkl
     strict_load: true
-
-# model:
-#   dataset:
-#     name: vis_dial_list_dataset
-#     cache_id: d
-#   load:
-#     checkpoint_path: outputs/visual_dialogue/visdial_bc_p20_test1/model_344063.pkl
-#     strict_load: true
 
 evaluator:
   env:
-    url: http://localhost:5001/step_rank
+    url: http://localhost:5000/step_rank
     actor_stop: false
     dataset:
       name: vis_dial_list_dataset
       cache_id: d
-    # reward_shift: 30.0
-    # reward_scale: 1e6
     yn_reward: -2.0
     yn_reward_kind: hard
   verbose: true
@@ -102,82 +69,6 @@ evaluator:
     # num_generations: 1
     # rerank_log_prob_weight: 0.0
     # rerank_advantage_weight: 1.0
-
-# evaluator:
-#   env:
-#     url: http://localhost:5001/step
-#     actor_stop: false
-#     dataset:
-#       name: vis_dial_list_dataset
-#       cache_id: d
-#     reward_shift: 30.0
-#     reward_scale: 1e6
-#     # yn_reward: -2.0
-#   model_0:
-#     alpha: 0.005
-#     gamma: 0.99
-#     beta: 0.0
-#     transition_weight: 0.0
-#     clip_weight: null
-#     value_max: null
-#     value_min: null
-#     detach_v: false
-#     detach_q: false
-#     detach_pi: false
-#     double_v: true
-#     seperate_policy: true
-#     seperate_target: true
-#     tau: 0.7
-#     exp_weights: true
-#     gpt2:
-#       lm_head: true
-#       from_pretrained: true
-#     dataset:
-#       name: vis_dial_list_dataset
-#       cache_id: d
-#     load:
-#       # checkpoint_path: outputs/visual_dialogue/visdial_rank_iql_frequency_cutoff_test1/model_458751.pkl
-#       # checkpoint_path: outputs/visual_dialogue/visdial_rank_iql_frequency_cutoff_simple_extraction_cql_test1/model_950271.pkl
-#       # checkpoint_path: outputs/visual_dialogue/visdial_rank_iql_frequency_cutoff_simple_extraction_cql_test2/model_884735.pkl
-#       # checkpoint_path: outputs/visual_dialogue/visdial_rank_iql_frequency_cutoff_yn_penalty_simple_extraction_cql_test2/model_65535.pkl
-#       checkpoint_path: outputs/visual_dialogue/visdial_iql_standard_new_extraction_test1/model_393215.pkl
-#       # checkpoint_path: null
-#       strict_load: true
-#   # model_1:
-#   #   name: gpt3_liklihood
-#   #   prompt_file: data/gpt3-prompts/vis_dial_1shot_prompt1.txt
-#   #   model_name: text-ada-001
-#   #   dataset:
-#   #     name: vis_dial_list_dataset
-#   #     cache_id: d
-#   #   convert_str:
-#   #     name: gpt3_convert_str_vis_dial
-#   #   convert_token:
-#   #     name: gpt3_convert_token_vis_dial
-#   kwargs_0:
-#     beta: 2.0
-#     exp_weights: true
-#     clip_weight: null
-#     logit_temp: 0.9
-#     logit_top_k: null
-#     logit_top_p: null
-#     include_logits: true
-#     include_advantage: true
-#   # kwargs_1:
-#   #   temp: 1.0
-#   #   top_p: null
-#   kwargs_main:
-#     beta: 1.0
-#     exp_weights: false
-#     clip_weight: null
-#     logit_temp: 1.0
-#     logit_top_k: null
-#     logit_top_p: null
-#     include_logits: false
-#     include_advantage: false
-#   verbose: true
-#   num_generations: 1
-#   max_generation_len: 40
 
 eval:
   dataloader_workers: 1

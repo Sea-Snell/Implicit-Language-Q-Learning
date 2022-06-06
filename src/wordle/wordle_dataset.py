@@ -108,8 +108,14 @@ class WordleHumanDataset(Iterable_RL_Dataset):
         return DataPoint.from_obs(obs, self.tokenizer, self.token_reward, {'obs': obs})
     
     @classmethod
-    def from_file(cls, file_path: str, use_true_word: bool, max_len: Optional[int], token_reward: TokenReward, 
-                  game_indexes: Optional[List[int]], top_p: Optional[float]):
+    def from_file(cls, file_path: str, 
+                  use_true_word: bool=False, 
+                  max_len: Optional[int]=None, 
+                  token_reward: Optional[TokenReward]=None, 
+                  game_indexes: Optional[List[int]]=None, 
+                  top_p: Optional[float]=None):
+        if token_reward is None:
+            token_reward = ConstantTokenReward(0.0)
         with open(file_path, 'r') as f:
             d = json.load(f)
         return WordleHumanDataset(d['games'], d['transitions'], use_true_word, max_len, token_reward, 
