@@ -66,7 +66,7 @@ evaluator:
       #   reward_cuttoff: 0.0
       #   load:
       #     name: roberta_binary_reward_model
-      #     checkpoint_path: outputs/toxicity/toxicity_upvote_roberta_binary_reward_f_test1/model.pkl
+      #     checkpoint_path: outputs/toxicity/upvote_reward/model.pkl
       #     strict_load: true
     include_parent: true
   verbose: true

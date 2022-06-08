@@ -14,7 +14,7 @@ class ToxicityListDataset(List_RL_Dataset):
                  token_reward: TokenReward, 
                  cuttoff: Optional[float]=None, 
                  resample_timeout: float=0.0, 
-                 include_parent: bool=False, 
+                 include_parent: bool=True, 
                 ) -> None:
         tokenizer = ToxicityTokenizer()
         super().__init__(tokenizer, token_reward, max_len)
