@@ -2,7 +2,7 @@
  
 Official code from the paper "Offline RL for Natural Language Generation with Implicit Language Q Learning"
  
-[project site](https://sea-snell.github.io/ILQL_site/) | [arxiv]()
+[project site](https://sea-snell.github.io/ILQL_site/) | [paper](https://sea-snell.github.io/ILQL_site/data/paper.pdf)
  
 ![A diagram of Implicit Language Q Learning](figures/ILQL_method_figure.png)
  
