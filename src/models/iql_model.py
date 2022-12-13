@@ -831,13 +831,13 @@ class IQL_Policy(Policy):
                  prefix_attn_mask: Optional[torch.Tensor]=None, 
                  remove_prefix_position_embs: bool=False):
         # swap out models so that only the relevent model is executed for speed purposes.
-        temp_target = self.iql_model.lm_target
-        temp_policy = self.iql_model.lm_policy
-        temp_model = self.iql_model.model
+        # temp_target = self.iql_model.lm_target
+        # temp_policy = self.iql_model.lm_policy
+        # temp_model = self.iql_model.model
 
-        self.iql_model.lm_target = temp_target
-        self.iql_model.lm_policy = None
-        self.iql_model.model = temp_policy
+        # self.iql_model.lm_target = temp_target
+        # self.iql_model.lm_policy = None
+        # self.iql_model.model = temp_policy
         
         tokenizer = self.iql_model.dataset.tokenizer
         max_length = self.iql_model.dataset.max_len
@@ -938,9 +938,9 @@ class IQL_Policy(Policy):
             t += 1
             termination_mask *= ((t-dialogue_lens) < max_generation_len).int()
         
-        self.iql_model.lm_target = temp_target
-        self.iql_model.lm_policy = temp_policy
-        self.iql_model.model = temp_model
+        # self.iql_model.lm_target = temp_target
+        # self.iql_model.lm_policy = temp_policy
+        # self.iql_model.model = temp_model
         
         output_strs = [tokenizer.decode(tokens[i, :].tolist(), clean_up_tokenization_spaces=False) for i in range(n)]
         processed_outputs = []
@@ -972,13 +972,13 @@ class IQL_Policy(Policy):
         assert include_logits or include_adv
         
         # swap out models so that only the relevent model is executed for speed purposes.
-        temp_target = self.iql_model.lm_target
-        temp_policy = self.iql_model.lm_policy
-        temp_model = self.iql_model.model
+        # temp_target = self.iql_model.lm_target
+        # temp_policy = self.iql_model.lm_policy
+        # temp_model = self.iql_model.model
 
-        self.iql_model.lm_target = temp_target
-        self.iql_model.lm_policy = None
-        self.iql_model.model = temp_policy
+        # self.iql_model.lm_target = temp_target
+        # self.iql_model.lm_policy = None
+        # self.iql_model.model = temp_policy
         
         tokenizer = self.iql_model.dataset.tokenizer
         max_length = self.iql_model.dataset.max_len
@@ -1073,9 +1073,9 @@ class IQL_Policy(Policy):
             t += 1
             termination_mask *= ((t-dialogue_lens) < max_generation_len).int()
         
-        self.iql_model.lm_target = temp_target
-        self.iql_model.lm_policy = temp_policy
-        self.iql_model.model = temp_model
+        # self.iql_model.lm_target = temp_target
+        # self.iql_model.lm_policy = temp_policy
+        # self.iql_model.model = temp_model
 
         scores = ((advantages * rerank_advantage_weight) + (log_probs * rerank_log_prob_weight)).reshape(-1, num_generations)
         order = torch.argsort(-scores, dim=1)
