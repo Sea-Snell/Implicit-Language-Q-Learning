@@ -157,6 +157,7 @@ class MonteCarloPolicy(Policy):
             while not curr_obs.game.is_terminal():
                 word_choice = self.sample_policy.act(curr_obs)
                 curr_obs, r, _ = curr_obs.game.next(word_choice)
+                curr_obs = WordleObservation(curr_obs)
                 total_reward += r
-            action_scores[curr_obs.action_history[len(obs.game.action_history)]].append(total_reward)
+            action_scores[curr_obs.game.action_history[len(obs.game.action_history)]].append(total_reward)
         return max(action_scores.items(), key=lambda x: sum(x[1]) / len(x[1]))[0]
